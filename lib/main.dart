@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:mahasiswa/models/data.dart';
 
 void main() {
   runApp(const MyApp());
@@ -80,8 +81,8 @@ class _HomePageState extends State<HomePage> {
     if (data["error"]) {
       return Text(data["errmsg"]);
     } else {
-      List<NameOne> namelist = List<NameOne>.from(data["data"].map((i) {
-        return NameOne.fromJSON(i);
+      List<Mhs> namelist = List<Mhs>.from(data["data"].map((i) {
+        return Mhs.fromJson(i);
       }));
 
       return SingleChildScrollView(
@@ -101,13 +102,13 @@ class _HomePageState extends State<HomePage> {
               ],
             ),
             // Table data
-            ...namelist.map((nameone) {
+            ...namelist.map((Mhs) {
               return TableRow(
                 children: [
-                  tableCell(nameone.nim),
-                  tableCell(nameone.nama),
-                  tableCell(nameone.alamat),
-                  tableCell(nameone.jurusan),
+                  tableCell(Mhs.nim),
+                  tableCell(Mhs.nama),
+                  tableCell(Mhs.alamat),
+                  tableCell(Mhs.jurusan),
                 ],
               );
             }).toList(),
@@ -128,29 +129,6 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
       ),
-    );
-  }
-}
-
-class NameOne {
-  final String nim;
-  final String nama;
-  final String alamat;
-  final String jurusan;
-
-  NameOne({
-    required this.nim,
-    required this.nama,
-    required this.alamat,
-    required this.jurusan,
-  });
-
-  factory NameOne.fromJSON(Map<String, dynamic> json) {
-    return NameOne(
-      nim: json['nim'] ?? '',
-      nama: json['nama'] ?? '',
-      alamat: json['alamat'] ?? '',
-      jurusan: json['jurusan'] ?? '',
     );
   }
 }
